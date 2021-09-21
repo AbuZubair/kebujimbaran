@@ -1,0 +1,29 @@
+ion-card{
+    border-top: 5px solid #fd8d25;
+}
+
+.list{
+    ion-avatar{
+        width: 80px;
+        height: 80px;
+    }
+
+    ion-label{
+        
+        p{
+            margin-bottom:0px;
+
+            ion-chip{
+                padding:5px;
+                height: unset;
+
+                ion-label{
+                    font-family: 'Montserrat-bold';
+                    text-transform: uppercase;
+                    font-size: 8px;
+                }
+            }
+        }
+
+    }
+}

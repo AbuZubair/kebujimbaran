@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close-outline" color="primary" size="large">
+      </ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" appScrollbarTheme>
+
+  <div class="img-wrapper">
+    <img [src]="product.photo" [class.outstock]="product.stock==0" width="90%" alt="product"/>
+    <div *ngIf="product.stock==0" class="outstock-label font-bold"> 
+      <ion-text color="danger">
+        {{ 'outStock' | translate }}
+      </ion-text> 
+    </div>
+  </div>
+
+  <div class="ion-text-start ion-padding-start ion-padding-end">
+    <ion-text class="font-bold">
+      <h3>{{product | lang:'name'}}</h3>
+    </ion-text>  
+    <ion-text class="font-bold">
+      <p class="val-font-3x">{{product.ukuran}} / {{product.satuan}}</p>
+    </ion-text> 
+    <div *ngIf="product.total && product.total > 1">
+      <ion-icon name="star" color="primary" *ngFor="let i of Arr(product.rating_string_1).fill(1)"></ion-icon>
+      <ion-icon name="star-half" color="primary" *ngFor="let i of Arr(product.rating_string_2).fill(1)"></ion-icon>
+      <ion-icon name="star-outline" *ngFor="let i of Arr(product.rating_left).fill(1)"></ion-icon>
+      <span class="val-font" style="position: absolute;">&nbsp;({{product.total}})</span>
+    </div>
+    <div *ngIf="product.desc">
+      <p class="val-font" style="font-style: italic;">{{product.desc}}</p>
+    </div>
+  </div>
+  
+</ion-content>
+
+
+<ion-footer style="margin-bottom: -5px;">
+  <ion-item lines="none">
+    <h5 slot="start" class="font-bold">Rp {{(product.harga_discount_string!=0)?product.harga_discount_string:product.harga_string}}</h5>
+    <ion-chip slot="start" *ngIf="product.harga_discount_string!=0">
+      <ion-label color="primary">Promo</ion-label>
+    </ion-chip>
+    <ng-container>
+      <ion-button *ngIf="checkCart(product.id)" (click)="addCart(product)" slot="end" [disabled]="product.stock == 0">{{'buy' | translate}}</ion-button> 
+      <ion-row *ngIf="!checkCart(product.id)" class="ion-align-items-center cart-qty" slot="end">
+        <ion-col class="ion-text-end ion-no-padding">
+          <ion-icon (click)="actQty('rm',product)" name="remove-outline" color="primary"></ion-icon>
+        </ion-col>
+        <ion-col size="sm" class="ion-padding">
+          <span class="font-bold">{{ getQtyCart(product.id) }}</span>
+        </ion-col>
+        <ion-col class="ion-no-padding">
+          <ion-icon (click)="actQty('add',product)" name="add-outline" color="primary"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ng-container> 
+  </ion-item>
+</ion-footer>

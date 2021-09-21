@@ -1,0 +1,148 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">{{'confirmation' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content appScrollbarTheme>
+
+  <ion-card class="ion-text-start">
+    <ion-card-header>
+      <ion-card-title class="font-bold">{{ 'paymentMethod' | translate }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-radio-group [(ngModel)]="paymentMethod">
+        <ion-item lines="full">
+          <ion-label>COD / Cash</ion-label>
+          <ion-radio slot="start" value="cod"></ion-radio>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label>Transfer</ion-label>
+          <ion-radio slot="start" value="transfer"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-text-start">
+    <ion-card-header>
+      <ion-card-title class="font-bold">{{ 'voucherPromo' | translate }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <div class="ion-text-center promo" *ngIf="!isShowPromo">
+        <ion-chip slot="start" (click)="useVoucher()">
+          <ion-label class="val-font" color="primary">{{ 'kodePromoWording' | translate }}</ion-label>
+        </ion-chip>
+      </div>
+
+      <ion-row *ngIf="isShowPromo">
+        <ion-col class="ion-align-self-center" size="1">
+          <ion-icon name="arrow-back-outline" color="primary" style="cursor: pointer;" (click)="isShowPromo = !isShowPromo"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label position="floating">Code</ion-label>
+            <ion-input [(ngModel)]="voucherCode" (ionChange)="changeCode($event)"></ion-input>
+          </ion-item>
+          <span class="error val-font ion-padding" *ngIf="isCodeRequired">
+            Code is required.
+          </span>
+          <span class="error val-font" *ngIf="isCodeNotExist">
+            Code is not recognized / expired .
+          </span>
+        </ion-col>
+        <ion-col class="ion-align-self-end" size="3">
+          <ion-button (click)="submitVoucher()" style="min-width: 80px;" [disabled]="voucher.amount > 0">
+            <span *ngIf="!isLoadingVoucher">{{ 'useVoucher' | translate }}</span>
+            <span *ngIf="isLoadingVoucher"><ion-spinner></ion-spinner></span>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-text-start">
+    <ion-card-header>
+      <ion-card-title class="font-bold">{{ 'summaryPayment' | translate }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <table width="100%">
+        <tbody>
+          <tr>
+            <td>{{ 'subtotal' | translate }}</td>
+            <td class="ion-text-end">Rp {{ sharedService.formattingCurrency(subtotal) }}</td>
+          </tr>
+          <tr class="disc" *ngIf="subtotal > subtotaldisc">
+            <td>{{ 'discount' | translate }}</td>
+            <td class="ion-text-end">- Rp {{ sharedService.formattingCurrency(subtotal - subtotaldisc) }}</td>
+          </tr>
+          <tr class="disc" *ngIf="voucher.amount > 0">
+            <td>{{ 'promo' | translate: {name: voucher.name} }}</td>
+            <td class="ion-text-end">- Rp {{ sharedService.formattingCurrency(voucher.amount) }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'deliveryFee' | translate }}</td>
+            <td class="ion-text-end"><span class="font-bold">{{ 'free' | translate }}</span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="val-font-2x">
+            <td>{{ 'total' | translate }}</td>
+            <td class="ion-text-end">Rp {{ sharedService.formattingCurrency(grandTotal) }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-text-start list">
+    <ion-card-header>
+      <ion-card-title class="font-bold">{{ 'yourList' | translate }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-list>
+        <ng-container *ngFor="let product of cart">
+          <ion-item lines="full" *ngIf="product.checked">
+            <ion-avatar slot="start">
+              <img [src]="product.photo" alt="product">
+            </ion-avatar>
+            <ion-label>
+              <p class="font-bold val-font-1x">{{product | lang:'name'}}</p>
+              <p class="val-font-s">{{product.ukuran}} / {{product.satuan}}</p>
+              <p>
+                <span class="font-bold val-font">Rp {{(product.harga_discount_string!=0)?product.harga_discount_string:product.harga_string}}</span>
+                <ion-chip slot="start" *ngIf="product.harga_discount_string!=0">
+                  <ion-label color="primary">Promo</ion-label>
+                </ion-chip>
+              </p>
+              <p><span class="line-through val-font-s" *ngIf="product.harga_discount!=0">Rp {{product.harga_string}}</span></p>
+            </ion-label>
+            <ion-text>
+              <p class="font-bold">{{product.qty}}</p>
+            </ion-text>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer style="margin-bottom: -5px;">
+  <ion-row>
+    <ion-col size="6">
+      <ion-button class="ion-margin-bottom ion-margin-top font-bold" fill="outline" expand="block" (click)="location.back()">{{ 'back' | translate }}</ion-button> 
+    </ion-col>
+    <ion-col size="6">
+      <ion-button class="ion-margin-bottom ion-margin-top font-bold" color="primary" expand="block" (click)="order()">{{ 'orderNow' | translate }}</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

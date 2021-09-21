@@ -1,0 +1,231 @@
+ion-toolbar{
+    --background:#ebf5e9;
+
+    .toolbar{      
+        --background:#ebf5e9;
+        
+        &__deliveryinfo{
+            margin-inline-start:15px;
+            font-family: 'Montserrat-semibold';
+            text-align: right;
+    
+            &--date{
+                color: var(--ion-color-primary);
+                min-width: 100px;
+            }
+        }
+    
+        &__deliveryicon{
+            margin-inline-start:10px;
+            color:#349b16;
+            font-size:16px;
+            padding: .6rem;
+            background-color: #c7e9ad;
+            border-radius: 10px;
+        }
+    
+        &__lang{
+            margin-inline-start:10px;
+    
+            ion-select{
+                max-width: unset;
+                padding-inline-start: 0;
+                font-size: 10px;            
+            } 
+            
+            ion-select::part(icon) {
+                display: none !important;
+            }
+    
+            .flag-icon{
+                background-size: cover !important;
+                width: 1.8em;
+                height: 1.5em;
+            }
+        }
+    
+        &__icon{
+            padding-top: 10px;
+        }
+    }
+
+    .searchbar{
+        --border-radius:10px;
+        margin-top: .5rem;
+        text-align: left;    
+    }
+}
+
+.imgslider{
+    border-radius: 10px !important;
+    overflow: hidden;
+    width: 95%;
+    min-height: 140px;
+}
+.segment{
+    margin-top: 1rem;
+
+    ion-segment-button{
+        display: block;
+        width: 16.67%;
+        
+        div{
+            width: 48px;
+            height: 48px;
+        }
+    }
+
+    ion-label{
+        text-transform: capitalize;
+        font-family: 'Montserrat-bold';
+        margin-top: unset;
+        // margin-bottom: 5px;
+    }
+}
+
+.spinner{
+    text-align: center;
+    ion-spinner{
+        margin-top: 20%;
+    }
+}
+
+.no-data{
+    text-align: center;
+    margin-top: 10%;
+}
+
+.nodata-searching{
+    margin-top: 50%;
+}
+
+.data-grid{
+
+    display: flex;
+    flex-wrap: wrap;
+    margin: 12px;
+    overflow: hidden;
+
+    .sale-icon{
+        position: absolute;
+        z-index: 99;
+        left: .15rem;
+        width: 4rem;
+        top: .8rem;
+    }
+
+    .data-wrapper{
+        padding-bottom: 5px;
+
+        ion-col.grid-card {
+            display: flex;
+            flex-direction: column;
+            padding: 4px;
+        }
+        
+        ion-card{
+            margin-top: 12px;
+            width: 100%;
+            height: 100%;
+            
+            text-align: left;
+            margin-inline: unset; 
+            
+            .card-wrapper{
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+
+                .__card-img{
+                    position: relative;
+                }
+
+                ion-card-header{
+                    padding-top: 2px;
+                    padding-bottom: 2px;
+                }
+        
+                ion-card-content{
+                    padding-bottom: unset;
+                }
+        
+                .default-photo{
+                    opacity: 0.5;
+                }
+
+                .card-footer{
+                    flex: 1 1 auto;
+                }
+            }
+        
+        }
+        
+    }
+
+}
+
+
+ion-footer{
+    margin-bottom: -5px;
+
+    ion-button{
+        ion-icon{
+            color: #666666;
+        }
+    }
+
+}
+
+.badge-one {
+    // position: absolute;
+    // top: 0px;
+    // right: -5px;
+    // font-size: 1em;
+    // border-radius: 50%;
+    // --padding-start: 5px;
+    // --padding-end: 5px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: -5px;
+    top: 0;
+    height: 20px;
+    width: 20px;
+    color: #f8fafd;
+    font-weight: 700;
+    font-size: 10px;
+    padding: 1px;
+    border: 2px solid #fff;
+    border-radius: 15px;
+    background-color: #e65c5c;
+}
+  
+.badge-two {
+    // position: absolute;
+    // top: 0px;
+    // right: -5px;
+    // font-size: 1em;
+    // border-radius: 50%;
+    // --padding-start: 3px;
+    // --padding-end: 3px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: -5px;
+    top: 0;
+    height: 20px;
+    width: 20px;
+    color: #f8fafd;
+    font-weight: 700;
+    font-size: 10px;
+    padding: 1px;
+    border: 2px solid #fff;
+    border-radius: 15px;
+    background-color: #e65c5c;
+}

@@ -1,0 +1,145 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" [routerLink]="['/home/product']" class="ion-padding-start">
+      <ion-icon name="arrow-back-outline" style="font-size: 24px;" color="primary"></ion-icon>
+    </ion-buttons>
+    <ion-title color="primary">{{'orderdetail' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content appScrollbarTheme>
+  <ng-container *ngIf="!loading">
+    <ion-card class="ion-text-start check-mark">  
+      <ion-card-content class="ion-text-center">
+        <ion-icon *ngIf="data.order.status != 2" name="checkmark-circle" color="primary"></ion-icon>
+        <ion-icon *ngIf="data.order.status == 2" name="close-circle" color="danger"></ion-icon>
+
+        <ion-text>
+          <h2 class="font-bold" *ngIf="data.order.status == 0">{{'orderDone' | translate}}</h2>
+          <h2 class="font-bold" *ngIf="data.order.status == 1">{{'transDone' | translate}}</h2>
+          <h2 class="font-bold" *ngIf="data.order.status == 2">{{'orderCancelled' | translate}}</h2>
+          <p *ngIf="data.order.status == 0">{{'orderProccessed' | translate}}</p>
+          <p class="font-bold"><a href="https://api.whatsapp.com/send?phone=6281220190008" target="_blank">{{'contactCs' | translate}}</a></p>
+        </ion-text>
+        <ion-button class="ion-margin font-bold" *ngIf="data.order.status == 1 && data.order.status_kirim==2" color="tertiary" expand="block" (click)="rating()">{{'giveRating' | translate}}</ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-text-start payment-detail">
+      <ion-card-header>
+        <ion-card-title class="font-bold">{{'orderdetail' | translate}}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <ion-list>
+          <ion-list-header class="font-bold">
+            {{'payment' | translate}}
+          </ion-list-header>
+
+          <ion-item lines="none">
+            <p>{{'total' | translate}}</p>
+            <p slot="end">Rp {{ sharedService.formattingCurrency(data.payment.charge_amount) }}</p>
+          </ion-item>
+
+          <ion-item lines="none">
+            <p>{{'paymentMethod' | translate}}</p>
+            <p slot="end" style="text-transform: uppercase;">{{ data.payment.payment_type }}</p>
+          </ion-item>
+
+          <div *ngIf="data.payment.payment_type=='transfer'" class="ion-margin-start ion-margin-end">
+            <h2>{{'no_rek' | translate:{value: '4371732980'} }}</h2>
+            <h2>{{'a_n' | translate:{value: 'Achmad Rahditio'} }}</h2>
+            <!-- <input type="file" name="file" id="file" class="inputfile" [class.lunas]="data.payment.payment_status == 1" (change)="selectImg($event)" accept="image/png, image/gif, image/jpeg" [disabled]="data.payment.payment_status == 1"/>
+            <label for="file">{{ labelFile }}</label> -->
+            <ion-button class="ion-margin font-bold" color="tertiary" expand="block" [href]="fullLink" [disabled]="data.payment.payment_status == 1">{{'buktitrf' | translate}}</ion-button>
+          </div>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header class="font-bold">
+            {{'order' | translate}}
+          </ion-list-header>
+
+          <ion-item lines="none">
+            <p>Order No</p>
+            <p slot="end">{{ data.order.order_no }}</p>
+          </ion-item>
+
+          <ion-item lines="none">
+            <p>{{'delivery' | translate}}</p>
+            <p slot="end">{{ data.order.delivery_date | date:'EE, dd MMM YYYY' }}</p>
+          </ion-item>
+
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-text-start list">
+      <ion-card-header>
+        <ion-card-title class="font-bold">{{ 'yourList' | translate }}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <ion-list>
+          <ng-container *ngFor="let product of data?.order_detail">
+            <ion-item lines="full">
+              <ion-avatar slot="start">
+                <img [src]="product.photo" alt="product">
+              </ion-avatar>
+              <ion-label>
+                <p class="font-bold val-font-1x">{{product | lang:'name'}}</p>
+                <p class="val-font-s">{{product.ukuran}} / {{product.satuan}}</p>
+                <p>
+                  <span class="font-bold val-font">Rp {{(product.harga_discount_string!=0)?product.harga_discount_string:product.harga_string}}</span>
+                  <ion-chip slot="start" *ngIf="product.harga_discount_string!=0">
+                    <ion-label color="primary">Promo</ion-label>
+                  </ion-chip>
+                </p>
+                <p><span class="line-through val-font-s" *ngIf="product.harga_discount!=0">Rp {{product.harga_string}}</span></p>
+              </ion-label>
+              <ion-text>
+                <p class="font-bold">{{product.quantity}}</p>
+              </ion-text>
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="ion-text-start buyer-detail">
+      <ion-card-header>
+        <ion-card-title class="font-bold">{{'buyerInfo' | translate}}</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <ion-list>
+          <ion-item lines="full">
+            <p>{{'fullname' | translate}}</p>
+            <p slot="end">{{ data.order.fullname }}</p>
+          </ion-item>
+
+          <ion-item lines="full">
+            <p>{{'phone' | translate}}</p>
+            <p slot="end">{{ data.order.phone }}</p>
+          </ion-item>
+
+          <ion-item lines="full">
+            <p>{{'email' | translate}}</p>
+            <p slot="end">{{ data.order.email }}</p>
+          </ion-item>
+
+          <ion-item lines="full">
+            <p>{{'address' | translate}}</p>
+            <p slot="end">{{ data.order.address }}</p>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- <ion-button class="ion-margin font-bold" color="warning" expand="block" (click)="cancelOrder()" [disabled]="data.order.status > 0">{{'cancelOrder' | translate}}</ion-button> -->
+  </ng-container>
+
+  <div class="ion-padding ion-margin-top ion-text-center" *ngIf="loading">
+    <ion-spinner color="primary" ></ion-spinner>
+  </div>
+</ion-content>

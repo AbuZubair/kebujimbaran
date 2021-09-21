@@ -1,0 +1,178 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-item lines="none" class="toolbar">
+      <div slot="end" class="val-font toolbar__deliveryinfo"> 
+          <!-- <div>
+            Jadetabek
+          </div>   -->
+          <div>
+            {{ 'delivery' | translate }} 
+          </div>
+          <div class="toolbar__deliveryinfo--date">
+            <span><ion-skeleton-text *ngIf="loadingDelivery" animated style="width:  100%;border-radius: 5px;"></ion-skeleton-text></span>
+            <span *ngIf="!loadingDelivery && deliveryDateString">
+              {{deliveryDateString}}
+            </span>
+          </div> 
+      </div>
+      <div slot="end" class="toolbar__deliveryicon"> 
+          <fa-icon icon="truck"></fa-icon>
+      </div>
+      <div slot="end" class="toolbar__lang">      
+        <span class="flag-icon" [ngClass]="{'flag-icon-id':lang=='id', 'flag-icon-us':lang!='id' }" (click)="openSelect()"></span>  
+        <ion-select [hidden]="true" #mySelect [interfaceOptions]="customPopoverOptions" [value]="lang" okText="Ok" cancelText="Cancel" (ionChange)="changeLang($event)">
+          <ion-select-option value="id">ID</ion-select-option>
+          <ion-select-option value="en">EN</ion-select-option>         
+        </ion-select>
+      </div>
+      <div slot="start" class="toolbar__icon">
+        <img src="assets/imgs/logoKBJ.png" width="40px" alt="logoKBJ">
+      </div>
+    </ion-item>
+    <ion-searchbar class="searchbar" [placeholder]="searchplaceholder" (ionChange)="search($event)" (ionCancel)="resetSearch()" (ionClear)="resetSearch()"></ion-searchbar>    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" scrollEvents="true" appScrollbarTheme>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-slides [options]="slideOptsOne" pager="true" *ngIf="!searching">
+       <ion-slide *ngIf="loadingSlider" class="slider1">
+        <ion-skeleton-text animated style="width: 90%;border-radius: 10px;min-height: 180px;"></ion-skeleton-text>
+      </ion-slide> 
+
+      <ng-container *ngIf="!loadingSlider">
+        <ion-slide class="slider1" *ngFor="let slider of slider">
+          <ion-img class="imgslider" [src]="slider.img" alt></ion-img>
+        </ion-slide>  
+      </ng-container>
+  </ion-slides>
+  
+  <ion-segment mode="md" (ionChange)="segmentChanged($event)" scrollable value="all" class="segment" *ngIf="!searching">
+    <ion-segment-button value="all">
+      <div>
+        <ion-icon src="assets/icon/all-product.svg" color="primary" style="font-size: 3em;"></ion-icon>
+      </div>      
+      <ion-label class="val-font-1s ion-text-wrap">{{ 'allproduct' | translate }}</ion-label>       
+    </ion-segment-button>
+    <ion-segment-button value="buah">
+      <div>
+        <ion-icon src="assets/icon/fruit.svg" color="primary" style="font-size: 3em;"></ion-icon>
+      </div>
+      <ion-label class="val-font-1s ion-text-wrap">{{ 'fruit' | translate }}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="sayur">
+      <div>
+        <ion-icon src="assets/icon/sayur.svg" color="primary" style="font-size: 3em;"></ion-icon>
+      </div>
+      <ion-label class="val-font-1s ion-text-wrap">{{ 'vegetables' | translate }}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="daging">
+      <div>
+        <ion-icon src="assets/icon/daging.svg" color="primary" style="font-size: 3em;"></ion-icon>
+      </div>
+      <ion-label class="val-font-1s ion-text-wrap">{{ 'meat' | translate }}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="makanan">
+      <div>
+        <ion-icon src="assets/icon/bread.svg" color="primary" style="font-size: 3em;"></ion-icon>
+      </div>
+      <ion-label class="val-font-1s ion-text-wrap">{{ 'fastfood' | translate }}</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="bapok">
+      <div>
+        <ion-icon src="assets/icon/bapok.svg" color="primary" style="font-size: 3em;"></ion-icon>
+      </div>
+      <ion-label class="val-font-1s ion-text-wrap">{{ 'bapok' | translate }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div class="spinner" [class.nodata-searching]="searching" *ngIf="loading">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <div class="no-data" [class.nodata-searching]="searching" *ngIf="!loading && productData.length==0">
+    No result found
+  </div>
+  
+  <div class="data-grid" *ngIf="!loading">
+    <ion-row class="data-wrapper">
+      <ion-col size="6" class="grid-card" *ngFor="let product of productData">
+        <img *ngIf="product.harga_discount!=0" src="assets/icon/flash_sale.png" class="sale-icon"  >
+        <ion-card>
+          <div class="card-wrapper">
+            <div (click)="presentModal(product)">
+              <div class="__card-img" [class.default-photo]="!product.path_photo">
+                <img [src]="product.photo" [class.outstock]="product.stock==0"/>
+
+                <div *ngIf="product.stock==0" class="outstock-label font-bold"> 
+                  <ion-text color="danger">
+                    {{ 'outStock' | translate }}
+                  </ion-text> 
+                </div>
+              </div>          
+              <ion-card-header>            
+                <ion-card-title class="font-bold val-font">{{product | lang:'name'}}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <div *ngIf="product.total && product.total >= 1">
+                  <ion-icon name="star" color="primary" *ngFor="let i of Arr(product.rating_string_1).fill(1)"></ion-icon>
+                  <ion-icon name="star-half" color="primary" *ngFor="let i of Arr(product.rating_string_2).fill(1)"></ion-icon>
+                  <ion-icon name="star-outline" *ngFor="let i of Arr(product.rating_left).fill(1)"></ion-icon>
+                  <span class="val-font" style="position: absolute;">&nbsp;({{product.total}})</span>
+                </div>
+                
+                <p class="val-font-s">{{product.ukuran}} / {{product.satuan}}</p>
+                <p>
+                  <span class="font-bold val-font">Rp {{(product.harga_discount_string!=0)?product.harga_discount_string:product.harga_string}} </span> 
+                  <span class="line-through val-font-s thin-text" *ngIf="product.harga_discount!=0">Rp {{product.harga_string}}</span>
+                </p>            
+              </ion-card-content>
+            </div>
+                          
+            <ion-row class="ion-align-items-end card-footer">
+              <ion-col>
+                <ion-button expand="block" *ngIf="checkCart(product.id)" (click)="addCart(product)" [disabled]="product.stock==0">{{'buy' | translate}}</ion-button>
+
+                <ion-row *ngIf="!checkCart(product.id)" class="ion-align-items-center cart-qty">
+                  <ion-col class="ion-text-end ion-no-padding">
+                    <ion-icon (click)="actQty('rm',product)" name="remove-outline" color="primary"></ion-icon>
+                  </ion-col>
+                  <ion-col size="sm" class="ion-padding">
+                    <span class="font-bold">{{ getQtyCart(product.id) }}</span>
+                  </ion-col>
+                  <ion-col class="ion-text-start ion-no-padding">
+                    <ion-icon (click)="actQty('add',product)" name="add-outline" color="primary"></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-col>     
+            </ion-row>
+          </div>
+        </ion-card>        
+      </ion-col>      
+    </ion-row>
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
+
+<ion-footer *ngIf="cart.length > 0 && totalQty > 0" style="margin-bottom: -5px;">
+  <ion-item>
+    <ion-button class="badge-button" fill="clear">
+      <ion-icon size="large" name="basket">
+      </ion-icon>
+      <ion-badge [class.badge-one]="totalQty < 10" [class.badge-two]="totalQty >= 10" color="danger">{{ totalQty }}</ion-badge>      
+    </ion-button>
+    <ion-label>
+      <h2 class="font-bold">Rp {{ (subtotal > subtotaldisc)?sharedService.formattingCurrency(subtotaldisc):sharedService.formattingCurrency(subtotal)  }}</h2>
+      <p class="val-font-1s line-through thin-text" *ngIf="subtotal > subtotaldisc">Rp {{ sharedService.formattingCurrency(subtotal)  }}</p>
+    </ion-label>
+    <ion-button fill="outline" slot="end" [routerLink]="['/cart']">{{'next' | translate}}</ion-button>    
+  </ion-item>
+</ion-footer>

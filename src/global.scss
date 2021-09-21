@@ -24,3 +24,130 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+ion-title{
+    text-align: start;
+    text-transform: capitalize;
+    font-family: 'Montserrat-bold';
+}
+
+.val-font-ss{    
+    font-size:8px !important;
+    font-size:0.5rem !important;
+    font-size:2.222vw !important;
+}
+
+.val-font-s{ 
+    font-size:10px !important;
+    font-size:0.6250rem !important;
+    // font-size:2.777vw !important;
+}
+
+.val-font-1s{ 	
+    font-size:11px !important;	
+    font-size:0.6875rem !important;
+    // font-size:3.055vw !important;     
+}
+
+.val-font{ 	
+    font-size:13px !important;
+    font-size:0.8125rem !important;
+    // font-size:3.611vw !important;        
+}
+
+.val-font-1x{
+    font-size:14px !important;
+    font-size:0.8125rem !important;
+    // font-size:3.888vw !important;
+}
+
+.val-font-2x{
+    font-size:16px !important;
+    font-size:1rem !important;
+    // font-size:4.444vw !important;
+}
+
+.val-font-3x{ 
+    font-size:18px !important;
+    font-size:1.1250rem !important;
+    // font-size:5vw !important;
+}
+
+.thin-text{color: #A5A5A5 !important;}
+
+.font-bold{
+    font-family: 'Montserrat-bold';
+}
+
+.line-through{
+    text-decoration: line-through;
+}
+
+.modal-container .modal-wrapper{
+    min-height: 500px;
+    height: auto;
+    bottom: 0;
+    position: absolute;
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+}
+
+.searchbar-input.sc-ion-searchbar-md{
+    // font-size:14px !important;
+    // font-size:0.8125rem !important;
+    padding-inline-end: unset;
+}
+
+.toast-custom-class {
+    // --color:#ffffff;
+    --border-radius:10px; 
+    // --background:var(--ion-color-primary);
+    // --button-color:#ffffff;
+    --max-width: 60%;    
+    font-family: 'Montserrat';
+    text-align: center;
+}
+
+.saving-sec{
+    color: var(--ion-color-primary);
+}
+
+.outstock{
+    opacity: 0.4;
+}
+
+.outstock-label{
+    z-index: 9999;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+
+    ion-text{
+        padding: 10px;
+        border: 1px solid;
+        border-radius: 10px;
+        background-color: var(--ion-color-danger);
+        color: #fff;
+    }
+}
+
+.cart-qty{
+    // height: 36px;
+
+    ion-icon{
+        font-size: 1.5rem;
+        border-radius: 50%;
+        background-color: #eaf5e7;
+        padding: 3px;
+    }
+}
+
+.limitmodal-container .modal-wrapper{
+    min-height: 230px;
+    height: auto;
+    top: 10px;
+    position: absolute;
+    border-radius: 15px;
+    width: 90%;
+}

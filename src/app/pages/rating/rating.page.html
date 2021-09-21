@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Rating</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card class="list" *ngFor="let product of data">
+    <ion-card-header>
+      <ion-icon [name]="!star ? 'star-outline' : 'star'" color="primary" size="large" (click)="rate(idx,product.id)" *ngFor="let star of product.rate;let idx=index"></ion-icon>
+    </ion-card-header>
+  
+    <ion-card-content class="ion-text-start">
+      <ion-list>
+        <ng-container>
+          <ion-item lines="none">
+            <ion-avatar slot="start">
+              <img [src]="product.photo" alt="product">
+            </ion-avatar>
+            <ion-label>
+              <p class="font-bold val-font-1x">{{product | lang:'name'}}</p>
+              <p class="val-font-s">{{product.ukuran}} / {{product.satuan}}</p>
+              <p>
+                <span class="line-through val-font-s" *ngIf="product.harga_discount!=0">Rp {{product.harga_string}}</span>
+                <ion-chip slot="start" *ngIf="product.harga_discount_string!=0">
+                  <ion-label color="primary">Promo</ion-label>
+                </ion-chip>
+              </p>
+            </ion-label>
+            <ion-text>
+              <p class="font-bold"><span class="font-bold val-font">Rp {{(product.harga_discount_string!=0)?product.harga_discount_string:product.harga_string}}</span></p>
+            </ion-text>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button class="ion-margin font-bold" color="primary" expand="block" (click)="save()">{{'save' | translate}}</ion-button>
+</ion-content>

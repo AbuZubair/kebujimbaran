@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">{{'help' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content appScrollbarTheme>
+  <ion-card class="cs">  
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">
+        WhatsApp CS
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content class="ion-text-center">
+      <ion-text>
+        <a href="https://api.whatsapp.com/send?phone=6281220190008" target="_blank"><h1 class="font-bold">0812-2019-0008</h1></a>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-text-start accordion" (click)="toggleAccordion(i)" *ngFor="let data of dataFaq;let i = index">
+    <ion-card-content>
+      <ion-item lines="none">
+        <p slot="start" class="font-bold" style="width: 90%;" [innerHTML]="data | lang:'a'"></p>
+        <span slot="end" style="margin-inline-start: 5px;">
+          <ion-icon [name]="isMenuOpen[i] ? 'chevron-up-circle-outline': 'chevron-down-circle-outline'" color="primary"></ion-icon>
+        </span>
+      </ion-item>
+      <div [ngClass]="this.isMenuOpen[i] ? 'active' : 'inactive'">
+          <ul style="list-style-type:circle;margin-top: 0;padding-inline-start: 20px;">
+            <li *ngFor="let v of data | lang:'b'" [innerHTML]="v"></li>
+          </ul>
+      </div> 
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,57 @@
+.img-wrapper{
+    width: 100%;
+    text-align: center;
+    position: relative;
+
+    img{
+        border-radius: 10px;
+    }
+}
+
+
+p{
+    margin-top: 5px !important;
+    margin-bottom: 10px !important;
+}
+
+ion-footer{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    // padding-top: 1rem;
+    background: #fff;
+
+    ion-chip{
+        margin-inline-end: 0;
+    }
+
+    ion-item{
+        margin-bottom: 1rem;
+    }
+    
+    h5{
+        margin-inline-end: 5px;
+        margin-top:10px
+    }
+
+    ion-label{
+        font-family: 'Montserrat-bold';
+        text-transform: uppercase;
+    }
+
+    ion-button{
+        --padding-start:1rem;
+        --padding-end:1rem;
+        --padding-top:1rem;
+        --padding-bottom:1rem;
+    }
+
+    .cart-qty{
+        margin-inline-start: unset;
+        ion-icon{
+            // font-size: 1.5rem;
+            border-radius: 50%;
+            background-color: #eaf5e7;
+            padding: 1px;
+        }
+    }
+}

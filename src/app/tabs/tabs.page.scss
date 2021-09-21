@@ -1,1 +1,8 @@
+ion-tab-bar{
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
 
+ion-tab-button[aria-selected=true] {
+    box-shadow: 0 2px 0 0 var(--ion-color-primary) inset;
+}

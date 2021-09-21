@@ -1,0 +1,83 @@
+ion-card{
+    border-top: 5px solid #fd8d25;
+}
+
+.check-mark{
+    ion-icon{
+        font-size: 10em;
+    }
+
+    p{
+        margin-top: 1rem;
+    }
+}
+
+.payment-detail{
+
+    ion-item{
+        font-family: 'Montserrat-semibold';
+    }
+    
+    ion-list-header{
+        border-bottom: 1px solid #626467;
+    }
+    
+}
+
+.list{
+    ion-avatar{
+        width: 80px;
+        height: 80px;
+    }
+
+    ion-label{
+        
+        p{
+            margin-bottom:0px;
+
+            ion-chip{
+                padding:5px;
+                height: unset;
+
+                ion-label{
+                    font-family: 'Montserrat-bold';
+                    text-transform: uppercase;
+                    font-size: 8px;
+                }
+            }
+        }
+
+    }
+}
+
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+    width: 100%;
+    
+}
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: var(--ion-color-tertiary);
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.inputfile.lunas + label {
+    opacity: 0.5;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    // background-color: red;
+}

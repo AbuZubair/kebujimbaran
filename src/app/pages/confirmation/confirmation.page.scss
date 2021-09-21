@@ -1,0 +1,81 @@
+ion-card{
+    border-top: 5px solid #fd8d25;
+
+    ion-item:not(:first-child){
+        padding-top:1rem;
+    }
+
+    ion-radio-group{
+        ion-label{
+            font-family: 'Montserrat-semibold';
+        }
+    }
+}
+
+.promo{
+    ion-chip{
+        border-radius: 10px !important;
+
+        ion-label{
+            font-family: 'Montserrat-semibold';
+            text-transform: uppercase;
+        }
+    }
+}
+
+table{
+    td{
+        padding: 10px;
+        font-family: 'Montserrat-semibold';
+    }
+
+    tbody .disc{
+        color: var(--ion-color-primary);
+    }
+
+    tfoot{
+        border-top: 2px solid #a8aaad;
+
+        td{
+            font-family: 'Montserrat-bold';
+        }
+        
+    }
+}
+
+.list{
+    ion-avatar{
+        width: 80px;
+        height: 80px;
+    }
+
+    ion-label{
+        
+        p{
+            margin-bottom:0px;
+
+            ion-chip{
+                padding:5px;
+                height: unset;
+
+                ion-label{
+                    font-family: 'Montserrat-bold';
+                    text-transform: uppercase;
+                    font-size: 8px;
+                }
+            }
+        }
+
+    }
+}
+
+.error{
+    color: red;
+}
+
+ion-footer{
+    // padding-left: 1rem;
+    // padding-right: 1rem;
+    // padding-top: 1rem;
+    background: #fff;
+}

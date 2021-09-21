@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" [routerLink]="['/home/product']" class="ion-padding-start">
+      <ion-icon name="arrow-back-outline" style="font-size: 24px;" color="primary"></ion-icon>
+    </ion-buttons>
+    <ion-title color="primary">{{'basket' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content appScrollbarTheme>
+
+  <ion-card class="ion-text-start">
+    <ion-card-header>
+      <ion-card-title class="font-bold">{{ 'product' | translate }}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-item lines="none">
+        <p class="font-bold val-font-2x">{{ 'allproduct' | translate }}</p>
+        <ion-checkbox [(ngModel)]="gridCheckAll" slot="start"  (ionChange)="checkAll($event)"></ion-checkbox>
+      </ion-item>
+
+      <ion-list>
+        <ng-container *ngFor="let product of cart;let i = index">
+          <ion-item lines="full">
+            <div>
+              <p class="font-bold val-font-1x">{{product | lang:'name'}}</p>
+              <p class="val-font-s">{{product.ukuran}} / {{product.satuan}}</p>
+              <p>
+                <span class="font-bold val-font">Rp {{(product.harga_discount_string!=0)?product.harga_discount_string:product.harga_string}}</span>
+                <ion-chip slot="start" *ngIf="product.harga_discount_string!=0">
+                  <ion-label color="primary">Promo</ion-label>
+                </ion-chip>
+              </p>
+              <p><span class="line-through val-font-s" *ngIf="product.harga_discount!=0">Rp {{product.harga_string}}</span></p>
+            </div>
+            <ion-checkbox slot="start" color="primary" [(ngModel)]="product.checked" style="margin-top: unset;" (ionChange)="rowCheckBoxChecked($event)"></ion-checkbox>
+            <ion-row class="ion-align-items-center cart-qty" slot="end">
+              <ion-col class="ion-text-end ion-no-padding">
+                <ion-icon (click)="actQty('rm',product)" name="remove-outline" color="primary"></ion-icon>
+              </ion-col>
+              <ion-col size="sm" class="ion-no-padding ion-padding-start ion-padding-end" style="margin-top: -5px;">
+                <span class="font-bold" >{{ product.qty }}</span>
+              </ion-col>
+              <ion-col class="ion-no-padding">
+                <ion-icon (click)="actQty('add',product)" name="add-outline" color="primary"></ion-icon>
+              </ion-col>
+            </ion-row>            
+          </ion-item>
+          <div *ngIf="error[i]">
+            <span class="error val-font ion-padding">
+              ({{product | lang:'name'}}) {{ error[i] }}
+            </span>
+          </div>
+        </ng-container>
+      </ion-list>
+      <ion-item lines="none">
+        <ion-text>
+          <h4 class="font-bold">Total</h4>
+        </ion-text>
+        <ion-text slot="end">
+          <span class="val-font-1s line-through thin-text" *ngIf="subtotal > subtotaldisc">Rp {{ sharedService.formattingCurrency(subtotal)  }}</span>
+          <span class="font-bold"> Rp {{ (subtotal > subtotaldisc)?sharedService.formattingCurrency(subtotaldisc):sharedService.formattingCurrency(subtotal)  }}</span>
+        </ion-text>
+      </ion-item>
+      <div class="ion-text-center alert" *ngIf="subtotal > subtotaldisc">
+        <ion-chip>
+          <ion-label class="val-font-1s"><span [innerHTML]="'savingWord' | translate:{value:sharedService.formattingCurrency(subtotal-subtotaldisc) }"></span></ion-label>
+        </ion-chip>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-text-start detail">
+    <ion-card-header>
+      <ion-card-title class="font-bold">Detail</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <form [formGroup]="dataForm">
+        <ion-item>
+          <ion-label position="floating">{{ 'fullname' | translate }}</ion-label>
+          <ion-input formControlName="fullname"></ion-input>
+        </ion-item>
+
+        <span class="error val-font ion-padding" *ngIf="isSubmitted && errorControl.fullname.errors?.required">
+          {{ 'fullname' | translate }} is required.
+        </span>
+
+        <ion-item>
+          <ion-label position="floating">{{ 'phone' | translate }}</ion-label>
+          <ion-input formControlName="phone" (keypress)="preventNumber($event)"></ion-input>
+        </ion-item>
+
+        <span class="error val-font ion-padding" *ngIf="isSubmitted && errorControl.phone.errors?.required">
+          {{ 'phone' | translate }} is required.
+        </span>
+
+        <ion-item>
+          <ion-label position="floating">{{ 'email' | translate }}</ion-label>
+          <ion-input formControlName="email" type="email"></ion-input>
+        </ion-item>
+
+        <span class="error val-font ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required">
+          {{ 'email' | translate }} is required.
+        </span>
+        <span class="error val-font ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.email">
+          Wrong format {{ 'email' | translate }}.
+        </span>
+
+        <ion-item>
+          <ion-label position="floating">{{ 'address' | translate }}</ion-label>
+          <ion-textarea formControlName="address"></ion-textarea>
+        </ion-item>
+
+        <span class="error val-font ion-padding" *ngIf="isSubmitted && errorControl.address.errors?.required">
+          {{ 'address' | translate }} is required.
+        </span>
+
+        <ion-item>
+          <ion-label position="stacked">{{ 'deliveryTime' | translate }}</ion-label>
+          <div class="ion-margin-top delivery-time">
+            <ion-skeleton-text *ngIf="!deliveryDateString" animated style="width:  40%;border-radius: 5px;"></ion-skeleton-text>
+            <p class="font-bold val-font-2x">{{deliveryDateString}}</p>
+            <p>7:00 - 10:00 (WIB)</p>
+          </div>
+        </ion-item>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button class="ion-margin font-bold" color="primary" expand="block" (click)="save()">{{'next2' | translate}}</ion-button>
+
+</ion-content>

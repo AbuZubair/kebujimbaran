@@ -1,0 +1,67 @@
+ion-card{
+    border-top: 5px solid #fd8d25;
+
+    div{
+        margin-bottom: 1rem;
+
+        p{
+            margin-bottom:0px;
+
+            ion-chip{
+                padding:5px;
+                height: unset;
+
+                ion-label{
+                    font-family: 'Montserrat-bold';
+                    text-transform: uppercase;
+                    font-size: 8px;
+                }
+            }
+        }
+
+    }
+
+    ion-item:not(:first-child){
+        padding-top:1rem;
+    }
+
+    .cart-qty{
+        margin-inline-start: unset;
+        ion-icon{
+            font-size: 1.5rem;
+            border-radius: 50%;
+            background-color: #eaf5e7;
+            padding: 1px;
+        }
+    }
+
+    .alert{
+
+        ion-chip{
+            border-radius: 10px !important;
+        }
+        
+    }
+}
+
+.detail{
+    ion-label{
+        font-size: 14px;
+        font-family: 'Montserrat-bold';
+    }
+
+    .delivery-time{
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid #626467;
+        border-radius: 10px;
+    }
+}
+
+ion-checkbox {
+    position:relative;
+}
+
+.error{
+    color: red;
+}

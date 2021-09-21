@@ -1,0 +1,33 @@
+.cs{
+    border-top: 5px solid #fd8d25;
+
+    ion-card-title{
+        font-family: 'Montserrat-bold';
+    }
+
+    a{
+        text-decoration: none;
+        color: var(--ion-color-tertiary);
+    }
+    
+}
+
+.accordion{
+    ion-icon{
+        font-size: 1.5rem;
+    }
+
+    div {
+        position: relative;
+        padding-left: 2em;  
+        padding-right: 1.5em; 
+    }
+  
+    .active {
+        display: block
+    }
+  
+    .inactive {
+        display: none;
+    }
+}
