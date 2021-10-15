@@ -99,7 +99,7 @@
   <div class="data-grid" *ngIf="!loading">
     <ion-row class="data-wrapper">
       <ion-col size="6" class="grid-card" *ngFor="let product of productData">
-        <img *ngIf="product.harga_discount!=0" src="assets/icon/flash_sale.png" class="sale-icon"  >
+        <img *ngIf="product.harga_discount!=0" src="assets/icon/flash_sale.png" class="sale-icon" [class.outstock]="product.stock==0" >
         <ion-card>
           <div class="card-wrapper">
             <div (click)="presentModal(product)">

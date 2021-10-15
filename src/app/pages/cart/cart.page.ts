@@ -49,7 +49,7 @@ export class CartPage implements OnInit {
     this.dataForm = this.formBuilder.group({
       fullname: ['', [Validators.required]],
       phone: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
+      // email: ['', [Validators.required, Validators.email]],
       address: ['', [Validators.required]],
     })
   }

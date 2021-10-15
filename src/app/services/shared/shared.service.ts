@@ -61,12 +61,16 @@ export class SharedService {
                 days[index] = res.data[index].ref_value
                 diff[index] = (res.data[index].ref_value - parseInt(today.getDay()))        
               }
-              let check = diff.some(function(el) { return el > 0 })
               let selectedDiff;
-              if(check){
-                selectedDiff = Math.min.apply(null, diff.filter(item => item>0))
+              if(diff.length == 1){
+                selectedDiff = diff[0]
               }else{
-                selectedDiff = Math.min.apply(null, diff.filter(item => item!=0))
+                let check = diff.some(function(el) { return el > 0 })
+                if(check){
+                  selectedDiff = Math.min.apply(null, diff.filter(item => item>0))
+                }else{
+                  selectedDiff = Math.min.apply(null, diff.filter(item => item!=0))
+                }
               }
               resolve(days[diff.findIndex(item => item==selectedDiff)]) 
             }else{

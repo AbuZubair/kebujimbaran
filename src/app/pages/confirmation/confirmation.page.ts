@@ -37,7 +37,7 @@ export class ConfirmationPage implements OnInit {
   isCodeRequired: boolean = false;
   isCodeNotExist: boolean = false;
   msisdn:any;
-  paymentMethod: string;
+  paymentMethod: string = 'transfer';
   msg: string;
   orderData: Object;
 
